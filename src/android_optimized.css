@@ -1,0 +1,427 @@
+/* Enhanced Android-specific optimizations */
+/* Load this file third: styles.css -> mobile-styles.css -> android-optimized.css */
+
+/* Android Chrome specific optimizations */
+@supports (-webkit-appearance: none) {
+  /* PWA and fullscreen optimizations */
+  @media (display-mode: standalone) {
+    .header {
+      padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+    }
+
+    body {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+  }
+
+  /* Android keyboard handling */
+  @media screen and (max-height: 500px) {
+    .main {
+      padding: 0.5rem 0;
+    }
+
+    .upload-section {
+      margin-bottom: 1rem;
+    }
+
+    .process-section {
+      margin-bottom: 1rem;
+    }
+
+    .results-section {
+      min-height: 3rem;
+      padding: 1rem;
+    }
+  }
+}
+
+/* Android Material Design inspired elements */
+.material-elevation-1 {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.material-elevation-2 {
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.material-elevation-4 {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+/* Android-specific touch improvements */
+@media screen and (max-width: 768px) {
+  /* Enhanced touch targets for Android */
+  .choose-btn,
+  .process-btn,
+  .remove-btn,
+  .reset-btn,
+  .nav-item {
+    min-height: 48px;
+    min-width: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Material ripple effect for Android */
+  .choose-btn::before,
+  .process-btn::before,
+  .remove-btn::before,
+  .reset-btn::before,
+  .nav-item::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: 0;
+  }
+
+  .choose-btn:active::before,
+  .process-btn:enabled:active::before,
+  .remove-btn:active::before,
+  .reset-btn:active::before,
+  .nav-item:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .choose-btn span,
+  .process-btn span,
+  .remove-btn span,
+  .reset-btn span,
+  .nav-item span {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Android status bar integration */
+  .status-section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e9ecef;
+  }
+
+  .status-section.material-elevation-1 {
+    border: none;
+  }
+
+  /* Enhanced upload area for Android */
+  .upload-area {
+    background: linear-gradient(135deg, #a2ac82 0%, #8d9970 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .upload-area::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  .upload-area:active::before {
+    left: 100%;
+  }
+
+  /* Android-style result cards */
+  .result-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--category-color, #4ade80);
+  }
+
+  /* Android navigation drawer style for nav */
+  .nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 0.25rem;
+  }
+
+  /* Android floating action button style for process button */
+  .process-btn:enabled {
+    background: linear-gradient(135deg, #5b6d49 0%, #4a5a3a 100%);
+    box-shadow: 0 4px 8px rgba(91, 109, 73, 0.3);
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .process-btn:enabled:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(91, 109, 73, 0.3);
+  }
+
+  /* Android-style progress indicator */
+  .loading-spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #ffffff;
+    border-radius: 50%;
+    animation: android-spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes android-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Android-style error messages */
+  .error {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-left: 4px solid #ef4444;
+    border-radius: 4px 8px 8px 4px;
+    animation: slide-in-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @keyframes slide-in-top {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Android-style results section */
+  .results-section {
+    background: linear-gradient(135deg, #5b6d49 0%, #4a5a3a 100%);
+    position: relative;
+  }
+
+  .results-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+      repeat;
+    opacity: 0.1;
+    pointer-events: none;
+  }
+
+  /* Android-style item list */
+  .items-list {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .item {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(75, 85, 99, 0.1);
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .item-dot {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Android Chrome address bar handling */
+@media screen and (max-width: 768px) {
+  .viewport-height {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Android dark theme support */
+@media (prefers-color-scheme: dark) {
+  .upload-area {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    border-color: #4b5563;
+  }
+
+  .status-section {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    border-color: #374151;
+  }
+
+  .result-card {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  }
+
+  .error {
+    background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+    border-left-color: #dc2626;
+    color: #fca5a5;
+  }
+}
+
+/* Android accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .choose-btn::before,
+  .process-btn::before,
+  .remove-btn::before,
+  .reset-btn::before,
+  .nav-item::before {
+    transition: none;
+  }
+
+  .upload-area::before {
+    display: none;
+  }
+
+  .error {
+    animation: none;
+  }
+}
+
+/* Android high contrast mode */
+@media (prefers-contrast: high) {
+  .status-section,
+  .upload-area,
+  .result-card,
+  .results-section {
+    border: 2px solid;
+  }
+
+  .nav-item {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .item-dot {
+    border: 2px solid;
+  }
+}
+
+/* Android performance optimizations */
+.upload-area,
+.result-card,
+.status-section,
+.nav {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Android-specific input styling */
+#file-input {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Android notification-style animations */
+.notification-enter {
+  animation: notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes notification-slide-in {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Android swipe gestures preparation */
+.swipeable {
+  touch-action: pan-x;
+  user-select: none;
+}
+
+/* Android bottom sheet style for results on small screens */
+@media screen and (max-height: 600px) and (max-width: 480px) {
+  .results-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 16px 16px 0 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .results-section.show {
+    transform: translateY(0);
+  }
+
+  .results-section::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    z-index: 1;
+  }
+
+  .result-card {
+    margin-top: 1rem;
+  }
+}
+
+/* Android Chrome custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+.loading-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.75rem;
+}

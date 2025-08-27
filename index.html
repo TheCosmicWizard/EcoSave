@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0c3c01">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>EcoSave - Sort Smart. Live Green.</title>
+    <link rel="stylesheet" href="./src/styles.css">
+    <link rel="stylesheet" href="./src/mobile_styles.css">
+    <link rel="stylesheet" href="./src/android_optimized.css">
+    <style>
+        /* Add missing styles for error display and loading spinner */
+        .error-display {
+            background-color: #dc3545;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-display {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.25rem 0;
+        }
+
+        .status-running {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status-warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .status-error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #0c3c01, #2e2d1d);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 1rem 0;
+            color: white;
+            text-align: center;
+        }
+
+        .result-icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .result-category {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .result-confidence {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .confidence-icon {
+            width: 20px;
+            height: 20px;
+            stroke: #28a745;
+            stroke-width: 3;
+        }
+
+        .items-section {
+            margin: 2rem 0;
+        }
+
+        .items-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .items-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .item-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .reset-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .reset-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="#" style="display: inline-block;">
+                        <img src="/src/logo.png" alt="EcoSave Logo">
+                    </a>
+                </div>
+                <div class="nav">
+                    <div class="nav-item"><a href="index.html" class="nav-item">Home</a></div>
+                    <div class="nav-item"><a href="about.html" class="nav-item">About</a></div>
+                </div>
+            </div>
+            <h1>Sort Smart. Live Green.</h1>
+            <p>AI-powered waste recognition system that guides eco-friendly disposal by categorizing waste into
+                recyclable, compostable, and non recyclable items.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Status Display -->
+            <div class="status-display">
+                <div class="status-item">
+                    <span>Backend Status:</span>
+                    <span id="backend-status" class="status-error">Connecting...</span>
+                </div>
+                <div class="status-item">
+                    <span>AI Model:</span>
+                    <span id="model-status" class="status-error">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error-display" class="error-display hidden">
+                <p id="error-message"></p>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="upload-section">
+                <h2 class="section-title">Upload Waste Image</h2>
+
+                <div id="upload-area" class="upload-area" onclick="document.getElementById('file-input').click()">
+                    <div id="upload-content">
+                        <svg class="camera-icon" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                            </path>
+                            <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2"></circle>
+                        </svg>
+                        <div class="upload-text">
+                            <p class="upload-title">Click to upload an image</p>
+                            <p class="upload-subtitle">Supports JPG, PNG, WEBP</p>
+                        </div>
+                        <button class="choose-btn" type="button">Choose Image</button>
+                    </div>
+
+                    <div id="preview-content" class="hidden">
+                        <img id="preview-image" class="preview-image" alt="Selected waste">
+                        <button class="remove-btn" type="button" onclick="resetUpload(event)">Remove Image</button>
+                    </div>
+                </div>
+
+                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="handleImageUpload(this)"
+                    capture="environment">
+            </div>
+
+            <!-- Process Button -->
+            <div class="process-section">
+                <button id="process-btn" class="process-btn" disabled onclick="processWaste()">
+                    Analyze Waste
+                </button>
+            </div>
+
+            <!-- Results -->
+            <div class="results-section">
+                <div id="results-empty" class="results-empty">
+                    <svg class="upload-icon" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7,10 12,15 17,10" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2"></line>
+                    </svg>
+                    <p class="empty-text">Upload an image to see results</p>
+                </div>
+
+                <div id="results-content" class="hidden">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 ECOSAVE</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global state
+        let data = {};
+        let selectedFile = null;
+        let loading = false;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('🚀 App initialized');
+            // Fetch backend status on load
+            fetchBackendStatus();
+
+            // Add touch event handling for better mobile experience
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+        });
+
+        // Fetch backend status
+        function fetchBackendStatus() {
+            console.log('🔄 Checking backend status...');
+
+            fetch("http://localhost:8000/")
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log('✅ Backend connected:', data);
+                    setData(data);
+                    updateStatusDisplay();
+                    hideError();
+                })
+                .catch((error) => {
+                    console.error('❌ Backend connection error:', error);
+                    showError('Unable to connect to backend server. Please ensure the server is running on port 8000.');
+                    updateStatusDisplay(false);
+                });
+        }
+
+        // Set data function
+        function setData(newData) {
+            data = { ...data, ...newData };
+        }
+
+        // Update status display
+        function updateStatusDisplay(connected = true) {
+            const backendStatus = document.getElementById('backend-status');
+            const modelStatus = document.getElementById('model-status');
+
+            if (connected && data.status === 'running') {
+                backendStatus.textContent = 'Connected';
+                backendStatus.className = 'status-running';
+            } else {
+                backendStatus.textContent = 'Offline';
+                backendStatus.className = 'status-error';
+            }
+
+            if (connected && data.model_loaded) {
+                modelStatus.textContent = 'Loaded';
+                modelStatus.className = 'status-running';
+            } else if (connected && data.model_loaded === false) {
+                modelStatus.textContent = 'Mock Mode';
+                modelStatus.className = 'status-warning';
+            } else {
+                modelStatus.textContent = 'Unavailable';
+                modelStatus.className = 'status-error';
+            }
+        }
+
+        // Handle image upload
+        function handleImageUpload(input) {
+            const file = input.files[0];
+
+            if (!file || !file.type.startsWith('image/')) {
+                showError('Please select a valid image file');
+                return;
+            }
+
+            // Check file size (limit to 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                showError('Image file is too large. Please select a file under 10MB.');
+                return;
+            }
+
+            selectedFile = file;
+            console.log('📁 File selected:', file.name, 'Size:', Math.round(file.size / 1024) + 'KB');
+            hideError();
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                showImagePreview(e.target.result);
+            };
+            reader.onerror = function () {
+                showError('Failed to read file');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Show image preview
+        function showImagePreview(src) {
+            document.getElementById('upload-content').classList.add('hidden');
+            document.getElementById('preview-content').classList.remove('hidden');
+            document.getElementById('preview-image').src = src;
+            document.getElementById('process-btn').disabled = false;
+            document.getElementById('upload-area').classList.add('has-image');
+        }
+
+        // Reset upload
+        function resetUpload(event) {
+            if (event) event.stopPropagation();
+
+            selectedFile = null;
+            document.getElementById('file-input').value = '';
+            document.getElementById('upload-content').classList.remove('hidden');
+            document.getElementById('preview-content').classList.add('hidden');
+            document.getElementById('process-btn').disabled = true;
+            document.getElementById('upload-area').classList.remove('has-image');
+            hideResults();
+            hideError();
+            console.log('🔄 Upload reset');
+        }
+
+        // Process waste image
+        async function processWaste() {
+            if (!selectedFile || loading) {
+                console.log('⚠️ No file selected or already processing');
+                return;
+            }
+
+            setLoading(true);
+            hideError();
+            console.log('🔄 Starting analysis...');
+
+            try {
+                const formData = new FormData();
+                formData.append('image', selectedFile);
+
+                console.log('📤 Sending request to Flask backend...');
+
+                const response = await fetch('http://localhost:8000/analyze-waste', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('📡 Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `Server error: ${response.status}`);
+                }
+
+                const analysisData = await response.json();
+                console.log('📥 Analysis data received:', analysisData);
+
+                // Validate response
+                if (!analysisData.category || !analysisData.confidence || !analysisData.color || !analysisData.items) {
+                    console.error('❌ Invalid data structure from backend:', analysisData);
+                    throw new Error('Invalid response format from server');
+                }
+
+                // Store analysis data
+                data['analyze-waste'] = [analysisData];
+                showResults(analysisData);
+
+                // Scroll to results on mobile
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.results-section').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+
+            } catch (error) {
+                console.error('❌ API Error:', error);
+                showError(`Analysis failed: ${error.message}`);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // Set loading state
+        function setLoading(isLoading) {
+            loading = isLoading;
+            const btn = document.getElementById('process-btn');
+
+            if (isLoading) {
+                btn.innerHTML = '<span class="loading-spinner"></span>Analyzing...';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = 'Analyze Waste';
+                btn.disabled = !selectedFile;
+            }
+        }
+
+        // Show results
+        function showResults(result) {
+            document.getElementById('results-empty').classList.add('hidden');
+            const resultsContent = document.getElementById('results-content');
+
+            const resultsHtml = `
+                <div class="result-card">
+                    <div class="result-icon-container" style="background-color: ${result.color};">
+                        ${getCategoryIconSVG(result.category)}
+                    </div>
+                    <h3 class="result-category" style="color: ${result.color};">${result.category}</h3>
+                    <div class="result-confidence">
+                        <svg class="confidence-icon" fill="none" viewBox="0 0 24 24">
+                            <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polyline>
+                        </svg>
+                        <span>Confidence: ${result.confidence}%</span>
+                    </div>
+                    
+                    <div class="items-section">
+                        <h4 class="items-title">Detected Items:</h4>
+                        <ul class="items-list">
+                            ${result.items.map(detectedItem => `
+                                <li class="item">
+                                    <div class="item-dot" style="background-color: ${result.color};"></div>
+                                    <span>${detectedItem}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button class="reset-btn" onclick="resetAll()">Analyze Another Item</button>
+                    </div>
+                </div>
+            `;
+
+            resultsContent.innerHTML = resultsHtml;
+            resultsContent.classList.remove('hidden');
+        }
+
+        // Get category icon SVG
+        function getCategoryIconSVG(category) {
+            const icons = {
+                recyclable: '<svg class="result-icon" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 19H6.5C4.01 19 2 16.99 2 14.5S4.01 10 6.5 10H9M17 5H17.5C19.99 5 22 7.01 22 9.5S19.99 14 17.5 14H15"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><polyline points="13,17 16,12 13,7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><polyline points="11,7 8,12 11,17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>',
+                compostable: '<svg class="result-icon" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20L3 16V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12l-4 4H7z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8s-2-2-4-2-4 2-4 2 2 2 4 2 4-2 4-2z"/></svg>',
+                landfill: '<svg class="result-icon" fill="none" viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+                'non_recyclable': '<svg class="result-icon" fill="none" viewBox="0 0 24 24"><polyline points="3,6 5,6 21,6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+            };
+
+            return icons[category?.toLowerCase()] || '<svg class="result-icon" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><line x1="9" y1="9" x2="15" y2="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>';
+        }
+
+        // Hide results
+        function hideResults() {
+            document.getElementById('results-empty').classList.remove('hidden');
+            document.getElementById('results-content').classList.add('hidden');
+        }
+
+        // Reset all
+        function resetAll() {
+            resetUpload();
+            data = { status: data.status, model_loaded: data.model_loaded };
+            console.log('🔄 All data reset');
+        }
+
+        // Show error
+        function showError(message) {
+            console.log('❌ Error:', message);
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-display').classList.remove('hidden');
+        }
+
+        // Hide error
+        function hideError() {
+            document.getElementById('error-display').classList.add('hidden');
+        }
+
+        // Handle orientation change for mobile
+        window.addEventListener('orientationchange', function () {
+            setTimeout(function () {
+                document.body.style.height = '100vh';
+                setTimeout(() => {
+                    document.body.style.height = '';
+                }, 100);
+            }, 100);
+        });
+
+        // Prevent iOS zoom on input focus
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>

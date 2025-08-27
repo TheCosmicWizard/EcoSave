@@ -1,0 +1,512 @@
+/* Mobile-first styles for Android devices */
+/* Import this after your main styles.css */
+
+/* Base mobile optimizations */
+@media screen and (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+    line-height: 1.6;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .container {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  /* Header optimizations */
+  .header {
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .logo img {
+    height: 32px;
+    width: auto;
+  }
+
+  .nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .nav-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .nav-item:active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+
+  .header p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Main content */
+  .main {
+    padding: 1.5rem 0;
+  }
+
+  /* Status section mobile */
+  .status-section {
+    margin: 0 auto 1.5rem auto;
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+
+  .status-grid {
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 0.25rem;
+  }
+
+  .status-label {
+    font-weight: 500;
+    color: #0c3c01;
+  }
+
+  /* Upload section mobile */
+  .upload-section {
+    max-width: 100%;
+    margin: 0 auto 2rem auto;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .upload-area {
+    padding: 2rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 0.75rem;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .camera-icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .upload-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .choose-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    border-radius: 25px;
+    min-height: 44px; /* iOS touch target */
+    transition: transform 0.2s;
+  }
+
+  .choose-btn:active {
+    transform: scale(0.95);
+  }
+
+  .preview-image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+  }
+
+  .remove-btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+    background: rgba(248, 113, 113, 0.1);
+    border-radius: 20px;
+    transition: background-color 0.3s;
+  }
+
+  .remove-btn:active {
+    background: rgba(248, 113, 113, 0.2);
+  }
+
+  /* Process button mobile */
+  .process-section {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+  }
+
+  .process-btn {
+    width: 100%;
+    max-width: 300px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 25px;
+    min-height: 48px;
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+
+  .process-btn:enabled:active {
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(91, 109, 73, 0.3);
+  }
+
+  .loading-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+
+  /* Results section mobile */
+  .results-section {
+    margin: 0 0.5rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    min-height: 6rem;
+  }
+
+  .upload-icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .empty-text {
+    font-size: 1.2rem;
+  }
+
+  .result-card {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .result-icon-container {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .result-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .result-category {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .result-confidence {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .items-section {
+    margin-top: 1.25rem;
+  }
+
+  .items-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .item {
+    justify-content: flex-start;
+    text-align: left;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+  }
+
+  .item-dot {
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+  }
+
+  .reset-btn {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.75rem 1rem;
+    margin-top: 1.5rem;
+    border-radius: 20px;
+    min-height: 44px;
+    transition: transform 0.2s;
+  }
+
+  .reset-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Error display mobile */
+  .error {
+    margin: 0 0.5rem 1.5rem 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Footer mobile */
+  .footer {
+    padding: 1.5rem 0;
+  }
+
+  .footer p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small mobile devices (320px - 480px) */
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+  }
+
+  .upload-area {
+    padding: 1.5rem 0.75rem;
+    margin: 0 0.25rem;
+  }
+
+  .camera-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .upload-title {
+    font-size: 1rem;
+  }
+
+  .upload-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .choose-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .process-btn {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .results-section {
+    margin: 0 0.25rem;
+    padding: 1.25rem;
+  }
+
+  .result-card {
+    padding: 1.25rem;
+  }
+
+  .result-category {
+    font-size: 1.25rem;
+  }
+
+  .result-icon-container {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .nav {
+    gap: 0.5rem;
+  }
+
+  .nav-item {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Landscape orientation optimizations */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: 0.75rem 0;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .main {
+    padding: 1rem 0;
+  }
+
+  .upload-area {
+    padding: 1.5rem 1rem;
+    min-height: 150px;
+  }
+
+  .camera-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .results-section {
+    min-height: 4rem;
+  }
+}
+
+/* Dark mode support for Android */
+@media (prefers-color-scheme: dark) {
+  .status-label {
+    color: #10b981;
+  }
+
+  .result-card {
+    background-color: #1f2937;
+    color: white;
+  }
+
+  .items-title {
+    color: #e5e7eb;
+  }
+
+  .item {
+    color: #d1d5db;
+  }
+
+  .result-confidence {
+    color: #d1d5db;
+  }
+
+  .confidence-icon {
+    stroke: #d1d5db;
+  }
+
+  .reset-btn {
+    background-color: #374151;
+    color: white;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .upload-area {
+    border-width: 3px;
+    border-color: #000;
+  }
+
+  .process-btn:enabled {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+
+  .choose-btn {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loading-spinner {
+    animation: none;
+  }
+}
+
+/* Touch-friendly improvements */
+.upload-area,
+.choose-btn,
+.process-btn,
+.remove-btn,
+.reset-btn,
+.nav-item {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+/* Prevent horizontal scroll */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Improve form input on mobile */
+#file-input {
+  font-size: 16px; /* Prevent zoom on iOS */
+}
+
+/* Safe area handling for devices with notches */
+@supports (padding: max(0px)) {
+  .header {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .container {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .footer {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+}

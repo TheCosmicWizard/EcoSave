@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0c3c01">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>About - EcoSave</title>
+    <link rel="stylesheet" href="./src/styles.css">
+    <link rel="stylesheet" href="./src/mobile_styles.css">
+    <link rel="stylesheet" href="./src/android_optimized.css">
+    <style>
+        /* About page specific styles */
+        .about-hero {
+            background-color: #0c3c01;
+            padding: .5rem 0 1rem 0;
+            color: white;
+        }
+
+        .about-content {
+            background-color: #0c3c01;
+            color: white;
+            padding: 0 0 4rem 0;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .mission-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: none;
+            width: 100%;
+        }
+
+        .vision-section {
+            margin-top: 2.5rem;
+        }
+
+        .vision-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .vision-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .vision-item {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .vision-item::before {
+            content: "•";
+            color: #a2ac82;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.1rem;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            text-align: center;
+            margin-top: 3rem;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            background-color: #f1f2ed;
+            padding: 4rem 0;
+        }
+
+        .team-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2e2d1d;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            background-color: #a2ac82;
+            border-radius: 1rem;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2e2d1d;
+            margin: 0;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .about-title {
+                font-size: 2rem;
+            }
+
+            .mission-text {
+                font-size: 1.1rem;
+            }
+
+            .team-title {
+                font-size: 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .team-member {
+                padding: 2rem 1rem;
+                min-height: 120px;
+            }
+
+            .quote-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .about-hero,
+            .about-content {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            .about-title {
+                font-size: 1.75rem;
+            }
+
+            .mission-text {
+                font-size: 1rem;
+            }
+
+            .vision-item {
+                font-size: 1rem;
+            }
+
+            .quote-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <a href="index.html" style="display: inline-block;">
+                        <img src="/src/logo.png" alt="EcoSave Logo">
+                    </a>
+                </div>
+                <div class="nav">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="about.html" class="nav-item">About</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="about-title">About US</h1>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <p class="mission-text">
+                At <strong>EcoSave</strong>, our mission is simple – make waste management smarter, greener, and easier
+                for everyone.
+                We believe that small, everyday actions can create a big impact on the environment. That's why we built
+                EcoSave, an AI-powered waste recognition system that helps individuals and communities identify waste
+                categories in seconds.
+                Whether it's recyclable plastics, compostable organics, or non-recyclables, EcoSave guides you to
+                dispose responsibly –
+                reducing landfill waste and promoting sustainable living.
+            </p>
+
+            <div class="vision-section">
+                <h2 class="vision-title">Our Vision:</h2>
+                <ul class="vision-list">
+                    <li class="vision-item">Empower people to make eco-friendly disposal decisions.</li>
+                    <li class="vision-item">Promote a cleaner, greener future through AI-driven solutions.</li>
+                    <li class="vision-item">Reduce the carbon footprint by encouraging sustainable habits.</li>
+                </ul>
+            </div>
+
+            <p class="quote-text">
+                <em>Together, we can create a world where waste becomes a resource, not a problem.</em>
+            </p>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="team-title">Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h3 class="member-name">Yash Dahale</h3>
+                </div>
+                <div class="team-member">
+                    <h3 class="member-name">Atharv Kadam</h3>
+                </div>
+                <div class="team-member">
+                    <h3 class="member-name">Shraddha Bhadane</h3>
+                </div>
+                <div class="team-member">
+                    <h3 class="member-name">Vineet Unde</h3>
+                </div>
+                <div class="team-member">
+                    <h3 class="member-name">Asad Pathan</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>@copyright ECOSAVE</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add touch event handling for better mobile experience
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+        }
+
+        // Handle orientation change for mobile
+        window.addEventListener('orientationchange', function () {
+            setTimeout(function () {
+                // Force a reflow to handle layout changes
+                document.body.style.height = '100vh';
+                setTimeout(() => {
+                    document.body.style.height = '';
+                }, 100);
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
